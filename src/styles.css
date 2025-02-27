@@ -1,0 +1,47 @@
+body {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background-color: black;
+}
+
+h1 {
+	color: #93e9be;
+}
+
+.container {
+	display: flex;
+	flex-direction: row;
+	gap: 100px;
+}
+
+.game-board {
+	display: grid;
+	grid-template-columns: repeat(10, 1fr);
+	grid-template-rows: repeat(10, 1fr);
+	gap: 1px;
+	width: 300px;
+	height: auto;
+}
+
+.cell {
+	width: 30px;
+	height: 30px;
+	background-color: #93e9be;
+	border: 1px solid green;
+	display: inline-block;
+	cursor: pointer;
+}
+
+.shot-hit {
+    background-color: red;
+}
+
+.shot-missed {
+    background-color: grey;
+}
+
+#enemy-board .cell:hover {
+	background-color: white;
+}

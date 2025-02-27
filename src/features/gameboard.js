@@ -1,4 +1,4 @@
-import Ship from "../features/ship";
+import Ship from "./ship.js";
 
 class Gameboard {
 	constructor() {
@@ -22,8 +22,8 @@ class Gameboard {
 			if (ship.isSunk()) {
 				this.sunken_ships++;
 				if (this.allShipsSunk()) {
-                    return "All Ships Sunk";
-				};
+					return "All Ships Sunk";
+				}
 				return "Ship Sunk";
 			}
 		} else {
@@ -58,6 +58,16 @@ class Gameboard {
 
 	getShipAt(coordinate) {
 		return this.grid[coordinate];
+	}
+
+	getCoordinateStatus(coordinate) {
+		if (this.missed_shots.has(coordinate)) {
+			return "Missed";
+		} else if (this.successful_shots.has(coordinate)) {
+			return "Hit";
+		} else {
+			return "Empty";
+		}
 	}
 
 	areValidCoordinates(coordinates) {
