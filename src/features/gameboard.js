@@ -4,35 +4,35 @@ class Gameboard {
 	constructor() {
 		this.grid = {};
 		this.ships = [];
-		this.missedShots = new Set();
-		this.successfulShots = new Set();
-		this.sunkenShips = 0;
+		this.missed_shots = new Set();
+		this.successful_shots = new Set();
+		this.sunken_ships = 0;
 	}
 
 	receiveAttack(coordinate) {
-		if (this.missedShots.has(coordinate) || this.successfulShots.has(coordinate)) {
+		if (this.missed_shots.has(coordinate) || this.successful_shots.has(coordinate)) {
 			return "Try Again";
 		}
 
 		const ship = this.getShipAt(coordinate);
 		if (ship) {
 			ship.hit();
-			this.successfulShots.add(coordinate);
+			this.successful_shots.add(coordinate);
 
 			if (ship.isSunk()) {
-				this.sunkenShips++;
+				this.sunken_ships++;
 				if (this.allShipsSunk()) {
                     return "All Ships Sunk";
 				};
 				return "Ship Sunk";
 			}
 		} else {
-			this.missedShots.add(coordinate);
+			this.missed_shots.add(coordinate);
 		}
 	}
 
 	allShipsSunk() {
-		if (this.sunkenShips === this.ships.length) {
+		if (this.sunken_ships === this.ships.length) {
 			return true;
 		}
 		return false;
@@ -51,8 +51,8 @@ class Gameboard {
 
 		this.ships.push(ship);
 
-		coordinates.forEach((coord) => {
-			this.grid[coord] = ship;
+		coordinates.forEach((coordinate) => {
+			this.grid[coordinate] = ship;
 		});
 	}
 
@@ -92,22 +92,22 @@ class Gameboard {
 		numbers = numbers.sort((a, b) => a - b);
 
 		for (let i = 1; i < coordinates.length; i++) {
-			let sameLetter = true;
-			let sameNumber = true;
+			let same_letter = true;
+			let same_number = true;
 
 			if (letters[i].charCodeAt(0) - letters[i - 1].charCodeAt(0) > 1) {
 				return false;
 			} else if (letters[i].charCodeAt(0) != letters[i - 1].charCodeAt(0)) {
-				sameLetter = false;
+				same_letter = false;
 			}
 
 			if (numbers[i] - numbers[i - 1] > 1) {
 				return false;
 			} else if (numbers[i] != numbers[i - 1]) {
-				sameNumber = false;
+				same_number = false;
 			}
 
-			if (!sameLetter && !sameNumber) {
+			if (!same_letter && !same_number) {
 				return false;
 			}
 		}

@@ -79,7 +79,7 @@ describe("Tests for the Battleship Gameboard Object", () => {
 		gameboard.placeShip(ship_length, coordinates);
 		gameboard.receiveAttack("B3");
 
-		expect(gameboard.missedShots.has("B3")).toBe(true);
+		expect(gameboard.missed_shots.has("B3")).toBe(true);
 	});
 
 	it("does not allow repeat failed attacks", () => {
@@ -115,7 +115,7 @@ describe("Tests for the Battleship Gameboard Object", () => {
 		gameboard.receiveAttack("A1");
 		gameboard.receiveAttack("A2");
 
-		expect(gameboard.sunkenShips).toEqual(1);
+		expect(gameboard.sunken_ships).toEqual(1);
 	});
 
 	it("determines when all ships have been sunk", () => {
