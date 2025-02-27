@@ -34,12 +34,17 @@ h1 {
 	cursor: pointer;
 }
 
+.cell.disabled {
+	pointer-events: none;
+	opacity: 0.5;
+}
+
 .shot-hit {
-    background-color: red;
+	background-color: red;
 }
 
 .shot-missed {
-    background-color: grey;
+	background-color: grey;
 }
 
 #enemy-board .cell:hover {
