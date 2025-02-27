@@ -95,7 +95,7 @@ describe("Tests for the Battleship Gameboard Object", () => {
 	});
 
 	it("does not allow repeat successful attacks", () => {
-        const gameboard = new Gameboard();
+		const gameboard = new Gameboard();
 		const ship_length = 5;
 		const coordinates = ["A1", "A2", "A3", "A4", "A5"];
 
@@ -104,5 +104,40 @@ describe("Tests for the Battleship Gameboard Object", () => {
 		const response = gameboard.receiveAttack("A3");
 
 		expect(response).toBe("Try Again");
+	});
+
+	it("determines a ship has been sunk", () => {
+		const gameboard = new Gameboard();
+		const ship_length = 2;
+		const coordinates = ["A1", "A2"];
+
+		gameboard.placeShip(ship_length, coordinates);
+		gameboard.receiveAttack("A1");
+		gameboard.receiveAttack("A2");
+
+		expect(gameboard.sunkenShips).toEqual(1);
+	});
+
+	it("determines when all ships have been sunk", () => {
+        const gameboard = new Gameboard();
+		const ship_length = 2;
+		const coordinates = ["A1", "A2"];
+
+		gameboard.placeShip(ship_length, coordinates);
+		gameboard.receiveAttack("A1");
+		gameboard.receiveAttack("A2");
+
+		expect(gameboard.allShipsSunk()).toEqual(true);
+    });
+
+    it("does not reply that all ships are sunk when only 1 has been", () => {
+        const gameboard = new Gameboard();
+
+		gameboard.placeShip(2, ["A1", "A2"]);
+        gameboard.placeShip(2, ["H1", "H2"]);
+		gameboard.receiveAttack("A1");
+		gameboard.receiveAttack("A2");
+
+		expect(gameboard.allShipsSunk()).toEqual(false);
     });
 });

@@ -6,6 +6,7 @@ class Gameboard {
 		this.ships = [];
 		this.missedShots = new Set();
 		this.successfulShots = new Set();
+		this.sunkenShips = 0;
 	}
 
 	receiveAttack(coordinate) {
@@ -16,10 +17,25 @@ class Gameboard {
 		const ship = this.getShipAt(coordinate);
 		if (ship) {
 			ship.hit();
-            this.successfulShots.add(coordinate);
+			this.successfulShots.add(coordinate);
+
+			if (ship.isSunk()) {
+				this.sunkenShips++;
+				if (this.allShipsSunk()) {
+                    return "All Ships Sunk";
+				};
+				return "Ship Sunk";
+			}
 		} else {
 			this.missedShots.add(coordinate);
 		}
+	}
+
+	allShipsSunk() {
+		if (this.sunkenShips === this.ships.length) {
+			return true;
+		}
+		return false;
 	}
 
 	placeShip(ship_length, coordinates) {
