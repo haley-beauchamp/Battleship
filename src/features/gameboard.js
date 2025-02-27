@@ -5,28 +5,43 @@ class Gameboard {
 		this.grid = {};
 		this.ships = [];
 		this.missedShots = new Set();
+		this.successfulShots = new Set();
+	}
+
+	receiveAttack(coordinate) {
+		if (this.missedShots.has(coordinate) || this.successfulShots.has(coordinate)) {
+			return "Try Again";
+		}
+
+		const ship = this.getShipAt(coordinate);
+		if (ship) {
+			ship.hit();
+            this.successfulShots.add(coordinate);
+		} else {
+			this.missedShots.add(coordinate);
+		}
 	}
 
 	placeShip(ship_length, coordinates) {
 		const ship = new Ship(ship_length);
 
 		if (!this.areValidCoordinates(coordinates)) {
-            return;
+			return;
 		}
 
-        if (!this.areCoordinatesAdjacent(coordinates)) {
-            return;
-        }
+		if (!this.areCoordinatesAdjacent(coordinates)) {
+			return;
+		}
 
-        this.ships.push(ship);
+		this.ships.push(ship);
 
-        coordinates.forEach(coord => {
-            this.grid[coord] = ship;
-        });
+		coordinates.forEach((coord) => {
+			this.grid[coord] = ship;
+		});
 	}
 
-    getShipAt(coord) {
-		return this.grid[coord];
+	getShipAt(coordinate) {
+		return this.grid[coordinate];
 	}
 
 	areValidCoordinates(coordinates) {
@@ -45,11 +60,11 @@ class Gameboard {
 		return true;
 	}
 
-    areCoordinatesAdjacent(coordinates) {
-        let letters = [];
-        let numbers = [];
+	areCoordinatesAdjacent(coordinates) {
+		let letters = [];
+		let numbers = [];
 
-        for (const coordinate of coordinates) {
+		for (const coordinate of coordinates) {
 			const letter = coordinate[0];
 			letters.push(letter);
 
@@ -57,32 +72,32 @@ class Gameboard {
 			numbers.push(number);
 		}
 
-        letters = letters.sort();
-        numbers = numbers.sort((a, b) => a - b);
+		letters = letters.sort();
+		numbers = numbers.sort((a, b) => a - b);
 
-        for (let i = 1; i < coordinates.length; i++) {
-            let sameLetter = true;
-            let sameNumber = true;
+		for (let i = 1; i < coordinates.length; i++) {
+			let sameLetter = true;
+			let sameNumber = true;
 
-            if ((letters[i].charCodeAt(0) - letters[i - 1].charCodeAt(0)) > 1) {
-                return false;
-            } else if ((letters[i].charCodeAt(0) != letters[i - 1].charCodeAt(0))) {
-                sameLetter = false;
-            }
+			if (letters[i].charCodeAt(0) - letters[i - 1].charCodeAt(0) > 1) {
+				return false;
+			} else if (letters[i].charCodeAt(0) != letters[i - 1].charCodeAt(0)) {
+				sameLetter = false;
+			}
 
-            if ((numbers[i] - numbers[i - 1]) > 1) {
-                return false;
-            } else if ((numbers[i] != numbers[i - 1])) {
-                sameNumber = false;
-            }
+			if (numbers[i] - numbers[i - 1] > 1) {
+				return false;
+			} else if (numbers[i] != numbers[i - 1]) {
+				sameNumber = false;
+			}
 
-            if (!sameLetter && !sameNumber) {
-                return false;
-            }
-        }
+			if (!sameLetter && !sameNumber) {
+				return false;
+			}
+		}
 
 		return true;
-    }
+	}
 }
 
 export default Gameboard;
