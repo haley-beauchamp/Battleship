@@ -39,7 +39,11 @@ class Gameboard {
 	}
 
 	placeShip(ship_length, coordinates) {
-		const ship = new Ship(ship_length);
+		for (const coordinate of coordinates) {
+			if (this.getShipAt(coordinate)) {
+				return;
+			}
+		}
 
 		if (!this.areValidCoordinates(coordinates)) {
 			return;
@@ -49,6 +53,7 @@ class Gameboard {
 			return;
 		}
 
+		const ship = new Ship(ship_length);
 		this.ships.push(ship);
 
 		coordinates.forEach((coordinate) => {

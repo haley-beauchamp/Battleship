@@ -1,17 +1,16 @@
 import createBoard from "./modules/create_board.js";
+import placeShipsRandomly from "./modules/place_ships.js";
 import Player from "./features/player.js";
 
 const player = new Player("player");
-player.game_board.placeShip(2, ["A1", "A2"]);
-
 const player_board = document.getElementById("player-board");
 createBoard(player_board, attack, false);
+placeShipsRandomly(player, true);
 
 const enemy = new Player("enemy");
-enemy.game_board.placeShip(2, ["A1", "A2"]);
-
 const enemy_board = document.getElementById("enemy-board");
 createBoard(enemy_board, attack, true);
+placeShipsRandomly(enemy, false)
 
 let turn = "player";
 
@@ -24,9 +23,12 @@ function attack(coordinate) {
 			switch (enemy.game_board.getCoordinateStatus(coordinate)) {
 				case "Hit":
 					shot.classList.add("shot-hit");
+					shot.innerText = "H";
+
 					break;
 				case "Missed":
 					shot.classList.add("shot-missed");
+					shot.innerText = "X";
 					break;
 				default:
 					break;
@@ -55,9 +57,11 @@ function enemyAttack() {
 			switch (player.game_board.getCoordinateStatus(coordinate)) {
 				case "Hit":
 					shot.classList.add("shot-hit");
+					shot.innerText = "H";
 					break;
 				case "Missed":
 					shot.classList.add("shot-missed");
+					shot.innerText = "X";
 					break;
 				default:
 					break;
@@ -76,7 +80,7 @@ function enemyAttack() {
 
 function gameOver() {
 	alert(`${turn} Wins!`);
-    
+
 	const cells = document.querySelectorAll(".cell");
 	cells.forEach((cell) => {
 		cell.classList.add("disabled");

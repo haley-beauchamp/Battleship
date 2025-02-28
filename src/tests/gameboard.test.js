@@ -59,6 +59,13 @@ describe("Tests for the Battleship Gameboard Object", () => {
 		});
 	});
 
+	it("does not place two ships at the same coordinates", () => {
+		const gameboard = new Gameboard();
+		gameboard.placeShip(3, ["A1", "A2", "A3"]);
+		const response = gameboard.placeShip(3, ["C3", "B3", "A3"]);
+		expect(response).toBe(undefined);
+	})
+
 	it("takes coordinates and attacks a ship", () => {
 		const gameboard = new Gameboard();
 		const ship_length = 5;

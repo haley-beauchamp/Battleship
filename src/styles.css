@@ -32,6 +32,9 @@ h1 {
 	border: 1px solid green;
 	display: inline-block;
 	cursor: pointer;
+    display: inline-flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .cell.disabled {
@@ -39,12 +42,17 @@ h1 {
 	opacity: 0.5;
 }
 
+.player-ship {
+    background-color: grey;
+}
+
 .shot-hit {
 	background-color: red;
+    color: white;
 }
 
 .shot-missed {
-	background-color: grey;
+	background-color: lightgrey;
 }
 
 #enemy-board .cell:hover {
