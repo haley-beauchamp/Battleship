@@ -30,6 +30,7 @@ A Battleship implementation in which a real player plays against an unsophistica
 - Implement 2 player mode
 - Allow custom ship lengths
 - Add coordinate labels to gameboard
+- Improve ship visuals
 
 ## Learning Outcomes
 - Gained experience with Test Driven Development and unit testing in general
