@@ -21,11 +21,11 @@ A Battleship implementation in which a real player plays against an unsophistica
 ### Additional Features
 
 ## Project Screenshots
-<img width="802" alt="Screenshot 2025-02-27 at 23 44 33" src="https://github.com/user-attachments/assets/a8cf9aa1-db85-4d99-bdb8-085e1b90cd35" />
+<img width="812" alt="Screenshot 2025-03-01 at 12 27 37" src="https://github.com/user-attachments/assets/d0b1d46b-ad01-4cb0-9efa-ae4847159b84" />
+
 
 ## Future Work
 - Improve AI intelligence
-- Make page design responsive
 - Allow players to place their own ships
 - Implement 2 player mode
 - Allow custom ship lengths
