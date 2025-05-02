@@ -3,7 +3,11 @@ import { player, enemy, updateBoardVisuals, gameOver } from "../battleship.js";
 let socket = null;
 
 function connectToServer(username, setTurn) {
-	const backendUrl = import.meta.env.VITE_BACKEND_URL;
+	// couldn't get env to work after deployment
+	// const backendUrl = import.meta.env.VITE_BACKEND_URL;
+	// socket = new WebSocket(`${backendUrl}?username=${username}`);
+
+	const backendUrl = "wss://battleship-backend-blp4.onrender.com";
 	socket = new WebSocket(`${backendUrl}?username=${username}`);
 
 	socket.onopen = () => {
