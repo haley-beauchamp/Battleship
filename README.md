@@ -19,6 +19,7 @@ A Battleship implementation in which a real player plays against an unsophistica
 - Project deployment
 
 ### Additional Features
+- Online Multiplayer
 
 ## Project Screenshots
 <img width="812" alt="Screenshot 2025-03-01 at 12 27 37" src="https://github.com/user-attachments/assets/d0b1d46b-ad01-4cb0-9efa-ae4847159b84" />
@@ -27,7 +28,6 @@ A Battleship implementation in which a real player plays against an unsophistica
 ## Future Work
 - Improve AI intelligence
 - Allow players to place their own ships
-- Implement 2 player mode
 - Allow custom ship lengths
 - Add coordinate labels to gameboard
 - Improve ship visuals
