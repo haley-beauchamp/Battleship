@@ -1,4 +1,4 @@
-import { player, enemy, updateBoardVisuals, gameOver } from "../battleship";
+import { player, enemy, updateBoardVisuals, gameOver } from "../battleship.js";
 
 let socket = null;
 
