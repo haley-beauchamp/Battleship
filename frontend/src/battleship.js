@@ -84,8 +84,10 @@ function computerAttack() {
 }
 
 export function updateBoardVisuals(character, coordinate, response = null) {
+	// find the cell according to given character and coordinate
 	const shot = document.querySelector(`#${character.player_name}-board .cell[data-coordinate="${coordinate}"]`);
 
+	// use given status if receiving a move from a player, otherwise check coordinate status directly for computer opponent
 	const status = response || character.game_board.getCoordinateStatus(coordinate);
 
 	switch (status) {
@@ -102,10 +104,14 @@ export function updateBoardVisuals(character, coordinate, response = null) {
 	}
 }
 
-function gameOver() {
-	const winner = is_your_turn ? player.player_name : enemy.player_name;
-	alert(`${winner} Wins!`);
+export function gameOver() {
+	if (is_opponent_computer) {
+		// alerts handled in web socket when opponent is player
+		const winner = is_your_turn ? player.player_name : enemy.player_name;
+		alert(`${winner} Wins!`);
+	}
 
+	// disable all cells so no further moves may be made
 	const cells = document.querySelectorAll(".cell");
 	cells.forEach((cell) => {
 		cell.classList.add("disabled");

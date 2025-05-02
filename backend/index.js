@@ -41,6 +41,8 @@ const handleMessage = (bytes, uuid) => {
 				response: message.response,
 			})
 		);
+	} else if (message.type === "game_over") {
+		connections[user.opponentUuid].send(JSON.stringify({ type: "game_over" }));
 	}
 };
 

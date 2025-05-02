@@ -1,4 +1,4 @@
-import { player, enemy, updateBoardVisuals } from "../battleship";
+import { player, enemy, updateBoardVisuals, gameOver } from "../battleship";
 
 let socket = null;
 
@@ -17,6 +17,7 @@ function connectToServer(username, setTurn) {
 	socket.onmessage = (event) => {
 		const message = JSON.parse(event.data);
 		if (message.type === "match_found") {
+			// here so i can eventually implement a waiting screen for user friendliness
 			//window.location.href = `/battleship.html?username=${username}&opponent=human`;
 			setTurn(message.isYourTurn);
 			alert(`Matched with ${message.opponent}... your turn? ${message.isYourTurn}`);
@@ -31,8 +32,19 @@ function connectToServer(username, setTurn) {
 			// send enemy the status of their attack
 			sendResponse(message.coordinate, response);
 			alert(`Opponent made move ${message.coordinate}`);
+
+			if (player.game_board.allShipsSunk()) {
+				gameOver(); // disable cells
+				sendGameOver(); // tell enemy game ended
+				alert(`Game over! Enemy wins!`); // tell player game ended
+			}
 		} else if (message.type === "move_response") {
+			// after receiving move status from enemy, update enemy board to reflect hit status
 			updateBoardVisuals(enemy, message.coordinate, message.response);
+		} else if (message.type === "game_over") {
+			// this implies that your opponent lost
+			gameOver(); // disable cells
+			alert(`Game over! You win!`); // tell player game is over
 		}
 	};
 }
@@ -54,6 +66,10 @@ function sendResponse(coordinate, response) {
 			response: response,
 		})
 	);
+}
+
+function sendGameOver() {
+	socket.send(JSON.stringify({ type: "game_over" }));
 }
 
 export { connectToServer, sendMove };
