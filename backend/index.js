@@ -6,7 +6,21 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 
-const server = http.createServer();
+const server = http.createServer((req, res) => {
+	res.setHeader("Access-Control-Allow-Origin", "*");
+	res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+	res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+	if (req.method === "OPTIONS") {
+		res.writeHead(200);
+		res.end();
+		return;
+	}
+
+	res.writeHead(200);
+	res.end("WebSocket server is running");
+});
+
 const ws_server = new WebSocketServer({ server });
 const PORT = process.env.PORT || 8080;
 
