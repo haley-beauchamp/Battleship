@@ -2,6 +2,9 @@ const http = require("http");
 const { WebSocketServer } = require("ws");
 const url = require("url");
 const uuidv4 = require("uuid").v4;
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 const server = http.createServer();
 const ws_server = new WebSocketServer({ server });
