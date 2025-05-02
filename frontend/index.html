@@ -5,14 +5,25 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
 		<title>Battleship</title>
-		<h1>Battleship</h1>
-		<div class="container">
-			<div class="game-board" id="player-board"></div>
-			<div class="game-board" id="enemy-board"></div>
-		</div>
-		<link rel="stylesheet" href="./src/styles.css" />
+		<link rel="stylesheet" href="./src/styles/styles.css" />
+		<link rel="stylesheet" href="./src/styles/form.css" />
 	</head>
 	<body>
-		<script type="module" src="./src/battleship.js"></script>
+		<h1>Battleship</h1>
+
+		<form id="start-game-form">
+			<label for="username">Who will those Battleship legends be about?</label>
+			<input id="username" placeholder="Billy Bob the Great" required />
+
+			<label for="opponent-type">Who will you destroy? (Or attempt to destroy, we don't judge.)</label>
+			<select id="opponent-type">
+				<option value="computer">Computer</option>
+				<option value="human">Would-Be Conqueror (Human)</option>
+			</select>
+
+			<button type="submit" id="submit-button">Game Time</button>
+		</form>
+
+		<script src="./src/index.js"></script>
 	</body>
 </html>
