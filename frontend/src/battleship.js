@@ -19,15 +19,14 @@ enemy_board.id = "enemy-board";
 game_board_container.appendChild(player_board);
 game_board_container.appendChild(enemy_board);
 
-const player = new Player(username);
+export const player = new Player(username);
 createBoard(player_board, attack, false);
 placeShipsRandomly(player, true);
 
-const enemy = new Player("enemy");
+export const enemy = new Player("enemy");
 createBoard(enemy_board, attack, true);
 
 let is_your_turn = false;
-let turn = "";
 let is_opponent_computer = true;
 
 if (opponent_type === "human") {
@@ -44,20 +43,9 @@ function attack(coordinate) {
 	if (is_your_turn) {
 		const response = enemy.game_board.receiveAttack(coordinate);
 		if (response != "Try Again") {
-			const shot = document.querySelector(`#enemy-board .cell[data-coordinate="${coordinate}"]`);
-
-			switch (enemy.game_board.getCoordinateStatus(coordinate)) {
-				case "Hit":
-					shot.classList.add("shot-hit");
-					shot.innerText = "H";
-
-					break;
-				case "Missed":
-					shot.classList.add("shot-missed");
-					shot.innerText = "X";
-					break;
-				default:
-					break;
+			if (is_opponent_computer) {
+				// automatically update the board visuals only if the enemy if a computer... otherwise we have to wait for a response
+				updateBoardVisuals(enemy, coordinate);
 			}
 
 			if (response === "All Ships Sunk") {
@@ -66,7 +54,7 @@ function attack(coordinate) {
 			}
 
 			if (!is_opponent_computer) {
-				sendMove(coordinate);
+				sendMove(coordinate); // send move through web socket if playing against a human
 			}
 
 			switchTurn();
@@ -82,20 +70,7 @@ function computerAttack() {
 
 		const response = player.game_board.receiveAttack(coordinate);
 		if (response != "Try Again") {
-			const shot = document.querySelector(`#${username}-board .cell[data-coordinate="${coordinate}"]`);
-
-			switch (player.game_board.getCoordinateStatus(coordinate)) {
-				case "Hit":
-					shot.classList.add("shot-hit");
-					shot.innerText = "H";
-					break;
-				case "Missed":
-					shot.classList.add("shot-missed");
-					shot.innerText = "X";
-					break;
-				default:
-					break;
-			}
+			updateBoardVisuals(player, coordinate);
 
 			if (response === "All Ships Sunk") {
 				gameOver();
@@ -108,8 +83,28 @@ function computerAttack() {
 	}
 }
 
+export function updateBoardVisuals(character, coordinate, response = null) {
+	const shot = document.querySelector(`#${character.player_name}-board .cell[data-coordinate="${coordinate}"]`);
+
+	const status = response || character.game_board.getCoordinateStatus(coordinate);
+
+	switch (status) {
+		case "Hit":
+			shot.classList.add("shot-hit");
+			shot.innerText = "H";
+			break;
+		case "Missed":
+			shot.classList.add("shot-missed");
+			shot.innerText = "X";
+			break;
+		default:
+			break;
+	}
+}
+
 function gameOver() {
-	alert(`${turn} Wins!`);
+	const winner = is_your_turn ? player.player_name : enemy.player_name;
+	alert(`${winner} Wins!`);
 
 	const cells = document.querySelectorAll(".cell");
 	cells.forEach((cell) => {

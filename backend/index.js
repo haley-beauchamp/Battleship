@@ -33,6 +33,14 @@ const handleMessage = (bytes, uuid) => {
 				})
 			);
 		}
+	} else if (message.type === "move_response") {
+		connections[user.opponentUuid].send(
+			JSON.stringify({
+				type: "move_response",
+				coordinate: message.coordinate,
+				response: message.response,
+			})
+		);
 	}
 };
 
