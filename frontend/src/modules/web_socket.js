@@ -3,7 +3,8 @@ import { player, enemy, updateBoardVisuals, gameOver } from "../battleship";
 let socket = null;
 
 function connectToServer(username, setTurn) {
-	socket = new WebSocket(`ws://localhost:8080?username=${username}`);
+	const backendUrl = import.meta.env.VITE_BACKEND_URL;
+	socket = new WebSocket(`${backendUrl}?username=${username}`);
 
 	socket.onopen = () => {
 		socket.send(
