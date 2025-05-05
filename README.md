@@ -28,7 +28,7 @@ A Battleship implementation in which a real player plays against an unsophistica
 ## Future Work
 - Improve AI intelligence
 - Allow players to place their own ships
-- Allow custom ship lengths
+- Allow custom ship lengths in multiplayer
 - Add coordinate labels to gameboard
 - Improve ship visuals
 
