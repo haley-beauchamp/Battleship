@@ -9,6 +9,15 @@ class Gameboard {
 		this.sunken_ships = 0;
 	}
 
+	// reset everything to initial state
+	reset() {
+		this.grid = {};
+		this.ships = [];
+		this.missed_shots = new Set();
+		this.successful_shots = new Set();
+		this.sunken_ships = 0;
+	}
+
 	receiveAttack(coordinate) {
 		if (this.missed_shots.has(coordinate) || this.successful_shots.has(coordinate)) {
 			return "Try Again";

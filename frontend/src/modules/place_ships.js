@@ -1,5 +1,29 @@
-export default function placeShipsRandomly(player, isPlayer) {
-	const ship_lengths = [2, 3, 3, 4, 5];
+export default function placeShipsRandomly(player, isPlayer, shipLengths = null) {
+	// if ship lengths are given, it's not the first time we're loading, so we need to clear existing ships
+	if (shipLengths) {
+		// reset stored ships
+		player.game_board.reset();
+
+		// reset cell displays
+		const board_selector = `#${player.player_name}-board .cell`;
+		const cells = document.querySelectorAll(board_selector);
+
+		// reset cells
+		cells.forEach((cell) => {
+			// remove every class besides cell from each cell
+			const classes = [...cell.classList];
+			classes.forEach((className) => {
+				if (className !== "cell") {
+					cell.classList.remove(className);
+				}
+			});
+			// clear text
+			cell.textContent = "";
+		});
+	}
+
+	// use specified custom ship lengths, or otherwise default Battleship ship lengths
+	const ship_lengths = shipLengths || [2, 3, 3, 4, 5];
 
 	for (const length of ship_lengths) {
 		let placed = false;

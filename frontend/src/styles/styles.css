@@ -60,6 +60,23 @@ h1 {
 	color: black;
 }
 
+#computer-options {
+	display: flex;
+	flex-direction: column;
+	color: white;
+	margin-top: 20px;
+	gap: 5px;
+}
+
+button {
+	background-color: #93e9be;
+	padding: 8px;
+}
+
+.hidden {
+	display: none;
+}
+
 @media (max-width: 750px) {
 	.game-board-container {
 		flex-direction: column;

@@ -8,6 +8,10 @@ const { username, opponent_type } = getQueryParams();
 
 const game_board_container = document.getElementById("game-board-container");
 
+// remove all existing game boards
+document.querySelectorAll(".game-board").forEach((el) => el.remove());
+
+// create new game boards
 const player_board = document.createElement("div");
 player_board.classList.add("game-board");
 player_board.id = `${username}-board`;
@@ -34,9 +38,44 @@ if (opponent_type === "human") {
 
 	is_opponent_computer = false;
 } else if (opponent_type === "computer") {
+	// show computer (single player) options (custom ship lengths)
+	document.querySelector("#computer-options").classList.remove("hidden");
+
 	placeShipsRandomly(enemy, false);
 
 	is_your_turn = true;
+
+	const submit_button = document.getElementById("submit-ships");
+	if (submit_button) {
+		submit_button.addEventListener("click", () => {
+			try {
+				const input = document.getElementById("ship-lengths").value;
+				const formatted_input = input.replace(/\s+/g, "").split(","); // remove spaces and split by commas
+				const ship_lengths = formatted_input.map(Number); // convert to numbers
+
+				if (ship_lengths.some((length) => length <= 0 || length > 10 || !Number.isInteger(length))) {
+					alert("Please enter valid ship lengths ranging from 1 to 10");
+					return;
+				}
+
+				// make sure provided ship lengths would not overflow the board
+				let total_cells = 0;
+				for (let ship_length of ship_lengths) {
+					total_cells += ship_length;
+				}
+				if (total_cells > 100) {
+					alert("There's not enough space in the water for all that...");
+					return;
+				}
+
+				placeShipsRandomly(player, true, ship_lengths);
+				placeShipsRandomly(enemy, false, ship_lengths);
+			} catch (error) {
+				console.log(error);
+				alert("Please enter a valid list of numbers, like: 2, 3, 3, 4, 5");
+			}
+		});
+	}
 }
 
 function attack(coordinate) {
